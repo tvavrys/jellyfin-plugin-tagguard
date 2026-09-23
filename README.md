@@ -6,13 +6,13 @@ TagGuard keeps only approved tags on Movies and Series in selected Jellyfin libr
 
 ## Install
 
-TagGuard currently provides a test catalog for Jellyfin **10.11.x**. In Jellyfin, open **Dashboard → Plugins → Repositories**, add this URL, then install TagGuard from the catalog and restart the server:
+TagGuard supports Jellyfin **10.11.x**. In Jellyfin, open **Dashboard → Plugins → Repositories**, add this URL, then install TagGuard from the catalog and restart the server:
 
 ```text
-https://raw.githubusercontent.com/tvavrys/jellyfin-plugin-tagguard/feature/tagguard-initial/manifest.json
+https://raw.githubusercontent.com/tvavrys/jellyfin-plugin-tagguard/main/manifest.json
 ```
 
-This manifest is hosted on the project's feature branch; TagGuard is not listed in Jellyfin's official plugin catalog.
+Release packages are published on [GitHub Releases](https://github.com/tvavrys/jellyfin-plugin-tagguard/releases). This is the project's own catalog, not Jellyfin's official plugin catalog.
 
 ## Configure and use
 
@@ -25,7 +25,7 @@ In **Dashboard → Plugins → TagGuard**:
 
 For bulk tag editing, we recommend [JellyTag from Jellyfin Powertoys](https://github.com/lennykean/jellyfin-powertoys). Its context menu can add or remove tags on one item, and it supports selecting multiple items to edit their tags together. A practical workflow is to use TagGuard to clean provider tags, then use JellyTag to assign approved tags such as `kids` where needed.
 
-TagGuard locks the Tags metadata field after cleanup to prevent metadata refreshes from restoring unwanted tags. Jellyfin 10.11 source indicates that the lock is persisted and honored by provider refreshes, while direct administrator tag edits remain possible. This has not yet been verified on a live server: sanitize a test item, restart Jellyfin, refresh its metadata, then use JellyTag to add an allowed tag and confirm the lock persists, provider tags stay absent, and the edit remains.
+TagGuard locks the Tags metadata field after cleanup to prevent metadata refreshes from restoring unwanted tags. Jellyfin 10.11 source indicates that the lock is persisted and honored by provider refreshes, while direct administrator tag edits remain possible. The full restart/refresh/edit sequence has not yet been verified on a live server: sanitize a test item, restart Jellyfin, refresh its metadata, then use JellyTag to add an allowed tag and confirm the lock persists, provider tags stay absent, and the edit remains.
 
 ## What it does
 

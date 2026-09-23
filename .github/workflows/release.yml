@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Verify catalog package
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          archive="packages/TagGuard_${version}.zip"
+          test -f "$archive"
+          expected="$(jq -er --arg version "$version" '.[0].versions[] | select(.version == $version) | .checksum' manifest.json)"
+          actual="$(md5sum "$archive" | cut -d ' ' -f 1)"
+          test "$actual" = "$expected"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" "packages/TagGuard_${version}.zip" \
+            --verify-tag \
+            --title "TagGuard $version" \
+            --notes "First public release for Jellyfin 10.11.x. TagGuard keeps explicitly allowed tags on selected Movies and Series, provides manual cleanup and optional new-item handling, and locks the Tags field against metadata refreshes. Review the README before running cleanup because it removes non-allowlisted tags."

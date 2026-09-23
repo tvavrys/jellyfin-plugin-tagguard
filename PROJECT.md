@@ -12,7 +12,7 @@ TagGuard is a Jellyfin plugin that keeps only explicitly allowed tags on configu
 
 ## Current status
 
-The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence service, manual cleanup task, and one-shot event-driven new-item handler are implemented. The manual task resolves selected libraries to physical folder roots before querying items. The Jellyfin dashboard page provides add/remove tag controls, a library picker using explicit IDs, and a new-item option; scoped styles live inside the plugin page root so Jellyfin Web retains them. Versioned test ZIPs and a catalog manifest on the feature branch support installation by repository URL. CI runs restore/build/test.
+The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence service, manual cleanup task, and one-shot event-driven new-item handler are implemented. The manual task resolves selected libraries to physical folder roots before querying items. The Jellyfin dashboard page provides add/remove tag controls, a library picker using explicit IDs, and a new-item option; scoped styles live inside the plugin page root so Jellyfin Web retains them. A user confirmed the manual task and dashboard work on a running server. A stable catalog on `main` points to GitHub Release packages. CI runs restore/build/test, and a tag workflow publishes the release ZIP.
 
 ## Known limitations and open questions
 
@@ -21,4 +21,4 @@ The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence 
 
 ## Immediate next steps
 
-Install the test build through the catalog URL and run the documented Jellyfin integration check: verify Tags lock persistence across restart, metadata-provider refresh behavior, and deliberate Jellyfin/JellyTag edits after sanitation. Publish a release and consider official plugin repository submission separately.
+Complete the live Jellyfin integration check: verify Tags lock persistence across restart, metadata-provider refresh behavior, and deliberate Jellyfin/JellyTag edits after sanitation. Consider official plugin repository submission separately.
