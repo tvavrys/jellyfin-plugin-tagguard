@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Jellyfin.Plugin.TagGuard/Jellyfin.Plugin.TagGuard.csproj" />
+  <Project Path="tests/Jellyfin.Plugin.TagGuard.Tests/Jellyfin.Plugin.TagGuard.Tests.csproj" />
+</Solution>

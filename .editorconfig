@@ -1,0 +1,25 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
+[*.{csproj,xml}]
+indent_size = 2
+
+[*.cs]
+dotnet_sort_system_directives_first = true
+
+# Keep common template-specific analyzer warnings non-blocking.
+dotnet_diagnostic.CA1002.severity = suggestion
+dotnet_diagnostic.CA1724.severity = suggestion
+dotnet_diagnostic.CA1822.severity = suggestion
+dotnet_diagnostic.CA2227.severity = suggestion
+dotnet_diagnostic.SA1101.severity = none
+dotnet_diagnostic.SA1200.severity = none
+dotnet_diagnostic.SA1204.severity = none
+dotnet_diagnostic.SA1633.severity = none
