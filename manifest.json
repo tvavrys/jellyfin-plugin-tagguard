@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.1.0.1",
+        "changelog": "Fix configuration loading and improve tag and library controls.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/tvavrys/jellyfin-plugin-tagguard/feature/tagguard-initial/packages/TagGuard_0.1.0.1.zip",
+        "checksum": "cf133ee2c800e3b1087389f30cf4b9d4",
+        "timestamp": "2026-09-23T09:43:29Z"
+      },
+      {
         "version": "0.1.0.0",
         "changelog": "Initial test build for Jellyfin 10.11.",
         "targetAbi": "10.11.0.0",
