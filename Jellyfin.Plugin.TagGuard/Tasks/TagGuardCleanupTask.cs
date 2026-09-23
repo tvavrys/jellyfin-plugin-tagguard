@@ -84,9 +84,10 @@ public sealed class TagGuardCleanupTask : IScheduledTask
 
             var validConfiguration = configuration!;
             var managedLibraryIds = validation.ManagedLibraries.Select(static library => library.Id).ToHashSet();
+            var topParentIds = GetTopParentIds(validation.ManagedLibraries);
             var query = new InternalItemsQuery
             {
-                TopParentIds = managedLibraryIds.ToArray(),
+                TopParentIds = topParentIds,
                 IncludeItemTypes = [BaseItemKind.Movie, BaseItemKind.Series],
                 SourceTypes = [SourceType.Library],
                 IsVirtualItem = false,
@@ -171,5 +172,24 @@ public sealed class TagGuardCleanupTask : IScheduledTask
                 skippedItems,
                 failures);
         }
+    }
+
+    internal static Guid[] GetTopParentIds(IReadOnlyCollection<CollectionFolder> managedLibraries)
+    {
+        ArgumentNullException.ThrowIfNull(managedLibraries);
+
+        var topParentIds = managedLibraries
+            .SelectMany(static library => library.PhysicalFolderIds ?? [])
+            .Where(static id => id != Guid.Empty)
+            .Distinct()
+            .ToArray();
+
+        if (topParentIds.Length == 0)
+        {
+            throw new InvalidOperationException(
+                "TagGuard cleanup was not started because the selected libraries have no physical folder roots. Check the library folders and try again.");
+        }
+
+        return topParentIds;
     }
 }

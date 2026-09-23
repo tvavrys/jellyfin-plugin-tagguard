@@ -1,6 +1,7 @@
 using Jellyfin.Plugin.TagGuard.Configuration;
 using Jellyfin.Plugin.TagGuard.Services;
 using Jellyfin.Plugin.TagGuard.Tasks;
+using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -21,5 +22,37 @@ public sealed class TagGuardCleanupTaskTests
             new TagSanitizer(libraryManager));
 
         Assert.Empty(task.GetDefaultTriggers());
+    }
+
+    [Fact]
+    public void GetTopParentIds_UsesPhysicalFolderIdsInsteadOfLibraryIds()
+    {
+        var libraryId = Guid.NewGuid();
+        var physicalFolderId = Guid.NewGuid();
+        var library = new CollectionFolder
+        {
+            Id = libraryId,
+            PhysicalFolderIds = [physicalFolderId]
+        };
+
+        var topParentIds = TagGuardCleanupTask.GetTopParentIds([library]);
+
+        Assert.Equal([physicalFolderId], topParentIds);
+        Assert.DoesNotContain(libraryId, topParentIds);
+    }
+
+    [Fact]
+    public void GetTopParentIds_ThrowsWhenSelectedLibrariesHaveNoPhysicalRoots()
+    {
+        var library = new CollectionFolder
+        {
+            Id = Guid.NewGuid(),
+            PhysicalFolderIds = []
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => TagGuardCleanupTask.GetTopParentIds([library]));
+
+        Assert.Contains("no physical folder roots", exception.Message, StringComparison.Ordinal);
     }
 }
