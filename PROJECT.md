@@ -12,7 +12,7 @@ TagGuard is a Jellyfin plugin that keeps only explicitly allowed tags on configu
 
 ## Current status
 
-The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence service, manual cleanup task, and one-shot event-driven new-item handler are implemented. The Jellyfin dashboard page provides add/remove tag controls, a library picker using explicit IDs, and a new-item option. Public documentation, changelog, `build.yaml`, and restore/build/test CI are in place. Versioned test ZIPs and a Jellyfin catalog manifest on the feature branch support installation by repository URL.
+The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence service, manual cleanup task, and one-shot event-driven new-item handler are implemented. The manual task resolves selected libraries to physical folder roots before querying items. The Jellyfin dashboard page provides add/remove tag controls, a library picker using explicit IDs, and a new-item option; scoped styles live inside the plugin page root so Jellyfin Web retains them. Versioned test ZIPs and a catalog manifest on the feature branch support installation by repository URL. CI runs restore/build/test.
 
 ## Known limitations and open questions
 

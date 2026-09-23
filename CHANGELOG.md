@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0.2
+
+- Fix manual cleanup finding no items in selected libraries.
+- Restore the intended configuration page styling in Jellyfin Web.
+
 ## 0.1.0.1
 
 - Fix the configuration page loading failure and show available libraries.

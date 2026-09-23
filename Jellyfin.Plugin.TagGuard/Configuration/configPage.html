@@ -3,7 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title>TagGuard</title>
+</head>
+<body>
+    <div id="TagGuardConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
     <style>
+        #TagGuardConfigPage [hidden] {
+            display: none !important;
+        }
+
         #TagGuardConfigPage .tagguard-content {
             max-width: 960px;
             margin: 0 auto;
@@ -214,9 +221,6 @@
             }
         }
     </style>
-</head>
-<body>
-    <div id="TagGuardConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
         <div data-role="content">
             <div class="content-primary tagguard-content">
                 <h1>TagGuard</h1>
