@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.1.0.2",
+        "changelog": "Fix bulk cleanup library queries and restore configuration page styling.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/tvavrys/jellyfin-plugin-tagguard/feature/tagguard-initial/packages/TagGuard_0.1.0.2.zip",
+        "checksum": "46878f1c4de1be3be372a8a860760d46",
+        "timestamp": "2026-09-23T10:00:50Z"
+      },
+      {
         "version": "0.1.0.1",
         "changelog": "Fix configuration loading and improve tag and library controls.",
         "targetAbi": "10.11.0.0",
