@@ -8,7 +8,7 @@ description: >
   Jellyfin TagGuard removes non-allowlisted tags from selected movie and series
   libraries and locks the Tags metadata field against metadata-provider refreshes.
 category: "General"
-owner: "community"
+owner: "tvavrys"
 artifacts:
   - "Jellyfin.Plugin.TagGuard.dll"
 changelog: >

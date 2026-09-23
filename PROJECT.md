@@ -21,4 +21,4 @@ The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence 
 
 ## Immediate next steps
 
-Run the documented manual Jellyfin integration check: verify Tags lock persistence across restart, metadata-provider refresh behavior, and deliberate Jellyfin/JellyTag edits after sanitation. Confirm/revise the `build.yaml` owner value when the eventual public GitHub owner is known; publish a release and consider plugin repository submission separately.
+Run the documented manual Jellyfin integration check: verify Tags lock persistence across restart, metadata-provider refresh behavior, and deliberate Jellyfin/JellyTag edits after sanitation. Publish a release and consider plugin repository submission separately.
