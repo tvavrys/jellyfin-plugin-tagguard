@@ -145,7 +145,7 @@ public sealed class TagGuardCleanupTask : IScheduledTask
                     catch (Exception exception)
                     {
                         failures++;
-                        this._logger.LogError(exception, "TagGuard failed to sanitize item {ItemId} ({ItemName})", item.Id, item.Name);
+                        this._logger.LogError(exception, "TagGuard failed to sanitize item {ItemId}", item.Id);
                     }
                 }
 
