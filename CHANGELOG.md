@@ -7,3 +7,4 @@
 - Add one-shot, event-driven sanitation for newly added Movies and Series.
 - Preserve other locked metadata fields and lock Tags against metadata refresh.
 - Add a Jellyfin dashboard configuration page and automated tests.
+- Provide a test catalog manifest and versioned ZIP for installation through Jellyfin's plugin catalog.

@@ -1,0 +1,20 @@
+[
+  {
+    "guid": "8d7137fb-7106-4c96-8d87-0325b38c88e5",
+    "name": "TagGuard",
+    "description": "Keep only explicitly allowed tags on Movies and Series in selected libraries, then lock the Tags metadata field against provider refreshes.",
+    "overview": "Allowlisted tags and Tags-field locking for selected libraries.",
+    "owner": "tvavrys",
+    "category": "General",
+    "versions": [
+      {
+        "version": "0.1.0.0",
+        "changelog": "Initial test build for Jellyfin 10.11.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/tvavrys/jellyfin-plugin-tagguard/feature/tagguard-initial/packages/TagGuard_0.1.0.0.zip",
+        "checksum": "ff09c0d6b9a5e1c9e281b158607321cb",
+        "timestamp": "2026-09-23T09:30:16Z"
+      }
+    ]
+  }
+]

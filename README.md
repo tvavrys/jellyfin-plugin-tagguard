@@ -21,9 +21,17 @@ TagGuard targets Jellyfin's 10.11 plugin ABI (`10.11.0.0`) and .NET 9, using the
 
 ## Installation
 
-There is not yet a published GitHub release or an entry in a Jellyfin plugin repository. Do not add a repository URL based on this README; repository inclusion would be a separate future release step.
+For testing on Jellyfin 10.11.x, add this TagGuard repository in **Dashboard → Plugins → Repositories**:
 
-When a release package is published, download its TagGuard plugin archive and extract it into a `TagGuard` subdirectory of Jellyfin's plugin data directory. Typical locations include:
+```text
+https://raw.githubusercontent.com/tvavrys/jellyfin-plugin-tagguard/feature/tagguard-initial/manifest.json
+```
+
+Then open the plugin catalog, install **TagGuard**, and restart Jellyfin. This is a test catalog hosted from the feature branch, not an entry in Jellyfin's official plugin repository. Its versioned ZIP and MD5 checksum are recorded in `manifest.json`.
+
+There is not yet a published GitHub release. Official Jellyfin plugin-repository inclusion would be a separate future step.
+
+For manual installation, extract a TagGuard plugin archive into a `TagGuard` subdirectory of Jellyfin's plugin data directory. Typical locations include:
 
 - Linux packages: `/var/lib/jellyfin/plugins/TagGuard`
 - Docker installations: the server's `/config/plugins/TagGuard` directory
