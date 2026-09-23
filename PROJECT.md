@@ -12,13 +12,13 @@ TagGuard is a Jellyfin plugin that keeps only explicitly allowed tags on configu
 
 ## Current status
 
-The solution, plugin/configuration types, tag planning logic, and unit test project are scaffolded. No scheduled task, event handler, configuration page, or persistence integration is implemented yet.
+The solution, plugin/configuration types, tag planner, configuration validator, Jellyfin persistence service, manual cleanup task, and event-driven new-item handler are implemented. Unit tests cover tag planning, configuration checks, persistence outcomes, and the bounded debounce queue. The configuration page and public documentation/CI remain to be added.
 
 ## Known limitations and open questions
 
-- Lock persistence and provider refresh behavior still need verification against Jellyfin 10.11 before integration is added.
-- Library ID resolution, task/event registration, and settling behavior remain to be implemented.
+- Inspection of Jellyfin 10.11.9 source confirms locked metadata fields are stored with item records, and metadata refresh merges tags only when `MetadataField.Tags` is not locked.
+- Jellyfin's metadata editor applies explicitly submitted tags even when the Tags field is locked, so deliberate administrator edits remain possible. A restart/provider-refresh test against a running server has not yet been performed.
 
 ## Immediate next steps
 
-Implement Jellyfin persistence integration, manual cleanup task, and event-driven new-item settling, then add the configuration page and public documentation.
+Add the configuration page, README, packaging metadata, and CI; document the source-verified lock behavior and a manual server integration test.

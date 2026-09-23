@@ -16,10 +16,17 @@ dotnet_sort_system_directives_first = true
 
 # Keep common template-specific analyzer warnings non-blocking.
 dotnet_diagnostic.CA1002.severity = suggestion
+dotnet_diagnostic.CA1031.severity = suggestion
+dotnet_diagnostic.CA1062.severity = suggestion
 dotnet_diagnostic.CA1724.severity = suggestion
 dotnet_diagnostic.CA1822.severity = suggestion
 dotnet_diagnostic.CA2227.severity = suggestion
+dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.SA1309.severity = none
+dotnet_diagnostic.SA1413.severity = none
 dotnet_diagnostic.SA1101.severity = none
 dotnet_diagnostic.SA1200.severity = none
 dotnet_diagnostic.SA1204.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1602.severity = none
 dotnet_diagnostic.SA1633.severity = none
