@@ -43,7 +43,7 @@ Until a release archive exists, build the plugin as described under [Development
 
 ## Configuration
 
-Open **Dashboard → Plugins → TagGuard**. Enter allowed tags one per line, choose one or more Jellyfin libraries, and decide whether to enforce the policy for new Movies and Series. The selector reads Jellyfin's `GET /Library/VirtualFolders` API, whose `ItemId` values correspond to collection-folder IDs; the server also validates selected IDs before processing.
+Open **Dashboard → Plugins → TagGuard**. Add allowed tags with the input and **Add tag** button (or Enter), choose one or more Jellyfin libraries, and decide whether to enforce the policy for new Movies and Series. Tags can be removed from the list before saving. The selector reads Jellyfin's `GET /Library/VirtualFolders` API, whose `ItemId` values correspond to collection-folder IDs; the server also validates selected IDs before processing.
 
 For example, an allowlist containing only:
 

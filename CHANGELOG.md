@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0.1
+
+- Fix the configuration page loading failure and show available libraries.
+- Replace the tags text area with add/remove tag controls and improve the form layout.
+
 ## 0.1.0.0
 
 - Initial TagGuard implementation for Jellyfin 10.11.

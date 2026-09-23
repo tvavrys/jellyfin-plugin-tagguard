@@ -3,38 +3,272 @@
 <head>
     <meta charset="utf-8">
     <title>TagGuard</title>
+    <style>
+        #TagGuardConfigPage .tagguard-content {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1.5em 1em 3em;
+        }
+
+        #TagGuardConfigPage .tagguard-intro {
+            margin: 0 0 1.25em;
+            line-height: 1.5;
+        }
+
+        #TagGuardConfigPage .tagguard-warning {
+            border-left: 4px solid #e9a23b;
+            border-radius: 4px;
+            padding: 1em 1.1em;
+            margin: 0 0 1.5em;
+            background: rgba(233, 162, 59, 0.12);
+            line-height: 1.5;
+        }
+
+        #TagGuardConfigPage .tagguard-section {
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 8px;
+            padding: 1.25em;
+            margin: 0 0 1.25em;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        #TagGuardConfigPage .tagguard-section h2 {
+            margin: 0 0 0.35em;
+            font-size: 1.2em;
+        }
+
+        #TagGuardConfigPage .tagguard-section-description {
+            margin: 0 0 1em;
+            line-height: 1.45;
+        }
+
+        #TagGuardConfigPage .tagguard-tag-entry {
+            display: flex;
+            align-items: stretch;
+            gap: 0.6em;
+            max-width: 620px;
+        }
+
+        #TagGuardConfigPage .tagguard-tag-entry input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #TagGuardConfigPage .tagguard-chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55em;
+            min-height: 2.3em;
+            margin: 1em 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #TagGuardConfigPage .tagguard-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55em;
+            padding: 0.4em 0.55em 0.4em 0.8em;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        #TagGuardConfigPage .tagguard-chip-remove {
+            display: inline-grid;
+            place-items: center;
+            width: 1.65em;
+            height: 1.65em;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            color: inherit;
+            background: rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+            font: inherit;
+            line-height: 1;
+        }
+
+        #TagGuardConfigPage .tagguard-chip-remove:hover,
+        #TagGuardConfigPage .tagguard-chip-remove:focus-visible {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        #TagGuardConfigPage .tagguard-empty-tags {
+            align-self: center;
+            opacity: 0.75;
+        }
+
+        #TagGuardConfigPage .tagguard-library-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1em;
+            margin: 0 0 0.8em;
+        }
+
+        #TagGuardConfigPage .tagguard-library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+            gap: 0.65em;
+        }
+
+        #TagGuardConfigPage .tagguard-library-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8em;
+            min-height: 3.5em;
+            padding: 0.85em;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+        }
+
+        #TagGuardConfigPage .tagguard-library-card:focus-within,
+        #TagGuardConfigPage .tagguard-library-card:hover {
+            border-color: rgba(255, 255, 255, 0.38);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        #TagGuardConfigPage .tagguard-library-card input {
+            flex: 0 0 auto;
+            margin-top: 0.2em;
+            accent-color: var(--theme-primary-color, #00a4dc);
+        }
+
+        #TagGuardConfigPage .tagguard-library-name {
+            display: block;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        #TagGuardConfigPage .tagguard-library-kind {
+            display: block;
+            margin-top: 0.2em;
+            font-size: 0.9em;
+            opacity: 0.72;
+        }
+
+        #TagGuardConfigPage .tagguard-state {
+            padding: 0.8em;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            line-height: 1.45;
+        }
+
+        #TagGuardConfigPage .tagguard-state-error {
+            color: #ffc0b8;
+            background: rgba(190, 48, 48, 0.16);
+        }
+
+        #TagGuardConfigPage .tagguard-options {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8em;
+        }
+
+        #TagGuardConfigPage .tagguard-options input {
+            flex: 0 0 auto;
+            margin-top: 0.2em;
+        }
+
+        #TagGuardConfigPage .tagguard-options label {
+            font-weight: 600;
+        }
+
+        #TagGuardConfigPage #ConfigMessage {
+            margin: 0.8em 0;
+        }
+
+        #TagGuardConfigPage .tagguard-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 0.5em;
+        }
+
+        #TagGuardConfigPage .tagguard-actions button {
+            min-width: 150px;
+        }
+
+        @media (max-width: 600px) {
+            #TagGuardConfigPage .tagguard-content {
+                padding: 1em 0.7em 2em;
+            }
+
+            #TagGuardConfigPage .tagguard-section {
+                padding: 1em;
+            }
+
+            #TagGuardConfigPage .tagguard-tag-entry {
+                flex-wrap: wrap;
+            }
+
+            #TagGuardConfigPage .tagguard-tag-entry input {
+                flex-basis: 100%;
+            }
+
+            #TagGuardConfigPage .tagguard-library-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="TagGuardConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
         <div data-role="content">
-            <div class="content-primary">
+            <div class="content-primary tagguard-content">
                 <h1>TagGuard</h1>
-                <p class="warningNotice" role="alert"><strong>Destructive operation:</strong> when TagGuard runs, it removes every tag not listed below from Movies and Series in the selected libraries. Review your selection and allowlist before running the cleanup task.</p>
-                <form id="TagGuardConfigForm">
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="AllowedTags">Allowed tags</label>
-                        <textarea id="AllowedTags" name="AllowedTags" is="emby-input" rows="5" required aria-describedby="AllowedTagsDescription"></textarea>
-                        <div id="AllowedTagsDescription" class="fieldDescription">Enter one tag per line. Matching ignores case and surrounding whitespace; the spelling shown here is retained as the canonical form.</div>
-                    </div>
+                <p class="tagguard-intro">Choose which tags may remain on Movies and Series in the libraries you manage. The same rules apply to the manual cleanup task and, when enabled, newly added items.</p>
 
-                    <fieldset>
-                        <legend>Managed libraries</legend>
-                        <p class="fieldDescription">Select at least one library. Only Movies and Series inside selected libraries are eligible.</p>
-                        <div id="LibraryOptions" aria-live="polite"></div>
-                    </fieldset>
+                <div class="tagguard-warning" role="note">
+                    <strong>Destructive operation:</strong> running TagGuard removes every tag that is not in this allowlist from eligible Movies and Series in selected libraries. Review the allowlist and library selection before running cleanup.
+                </div>
 
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label class="emby-checkbox-label">
-                            <input id="EnforceNewItems" name="EnforceNewItems" type="checkbox" is="emby-checkbox" />
-                            <span>Automatically sanitize newly added Movies and Series</span>
-                        </label>
-                        <div class="fieldDescription">New items are processed once after Jellyfin's item updates settle. TagGuard does not continuously scan the library.</div>
-                    </div>
+                <form id="TagGuardConfigForm" novalidate>
+                    <section class="tagguard-section" aria-labelledby="AllowedTagsHeading">
+                        <h2 id="AllowedTagsHeading">Allowed tags</h2>
+                        <p class="tagguard-section-description" id="AllowedTagsDescription">Add each tag you want to keep. Matching ignores case and surrounding whitespace; the spelling shown on each chip is retained as the canonical form.</p>
+                        <div class="tagguard-tag-entry">
+                            <label class="visuallyhidden" for="AllowedTagInput">New allowed tag</label>
+                            <input id="AllowedTagInput" name="AllowedTagInput" type="text" is="emby-input" class="emby-input" autocomplete="off" aria-describedby="AllowedTagsDescription" placeholder="For example: kids">
+                            <button id="AddTagButton" type="button" is="emby-button" class="raised emby-button">
+                                <span>Add tag</span>
+                            </button>
+                        </div>
+                        <ul id="AllowedTagChips" class="tagguard-chip-list" aria-label="Allowed tags" aria-live="polite"></ul>
+                        <div id="TagInputMessage" class="fieldDescription" role="status" aria-live="polite"></div>
+                    </section>
 
-                    <div id="ConfigMessage" role="status" aria-live="polite"></div>
-                    <div>
-                        <button id="SaveButton" is="emby-button" type="submit" class="raised button-submit block emby-button">
-                            <span>Save</span>
+                    <section class="tagguard-section" aria-labelledby="LibrariesHeading">
+                        <h2 id="LibrariesHeading">Managed libraries</h2>
+                        <p class="tagguard-section-description" id="LibrariesDescription">Select at least one library. TagGuard processes only Movies and Series within these libraries; other item types are ignored.</p>
+                        <div class="tagguard-library-toolbar">
+                            <div id="LibrarySummary" class="fieldDescription" aria-live="polite">Loading libraries…</div>
+                            <button id="RetryLibrariesButton" type="button" is="emby-button" class="emby-button" hidden>
+                                <span>Retry library load</span>
+                            </button>
+                        </div>
+                        <div id="LibraryState" class="tagguard-state" role="status" aria-live="polite">Loading Jellyfin libraries…</div>
+                        <div id="LibraryOptions" class="tagguard-library-grid" tabindex="-1" aria-describedby="LibrariesDescription"></div>
+                    </section>
+
+                    <section class="tagguard-section" aria-labelledby="NewItemsHeading">
+                        <h2 id="NewItemsHeading">New items</h2>
+                        <div class="tagguard-options">
+                            <input id="EnforceNewItems" name="EnforceNewItems" type="checkbox" is="emby-checkbox" aria-describedby="EnforceNewItemsDescription">
+                            <div>
+                                <label for="EnforceNewItems">Automatically sanitize newly added Movies and Series</label>
+                                <div id="EnforceNewItemsDescription" class="fieldDescription">Each new eligible item is processed once after Jellyfin's metadata updates settle. TagGuard does not continuously scan the library.</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div id="ConfigMessage" class="tagguard-state" role="status" aria-live="polite"></div>
+                    <div class="tagguard-actions">
+                        <button id="SaveButton" is="emby-button" type="submit" class="raised button-submit emby-button" disabled>
+                            <span>Save settings</span>
                         </button>
                     </div>
                 </form>
@@ -45,135 +279,332 @@
                 pluginUniqueId: '8d7137fb-7106-4c96-8d87-0325b38c88e5'
             };
 
-            function normalizeId(id) {
-                return String(id || '').replace(/[{}-]/g, '').toLowerCase();
+            var allowedTags = [];
+            var currentConfig = null;
+            var librariesLoaded = false;
+            var settingsLoaded = false;
+
+            function normalizeId(value) {
+                if (typeof value !== 'string') {
+                    return '';
+                }
+
+                var normalized = value.trim().replace(/[{}-]/g, '');
+                return /^[0-9a-f]{32}$/i.test(normalized) ? normalized.toLowerCase() : '';
             }
 
-            function parseAllowedTags(text) {
+            function uniqueTags(values) {
                 var seen = new Set();
-                return text.split(/\r?\n/)
-                    .map(function (tag) { return tag.trim(); })
-                    .filter(function (tag) {
-                        if (!tag) {
-                            return false;
-                        }
+                var tags = Array.isArray(values) ? values : (typeof values === 'string' ? values.split(/\r?\n/) : []);
+                return tags.reduce(function (result, value) {
+                    if (typeof value !== 'string') {
+                        return result;
+                    }
 
-                        var key = tag.toLowerCase();
-                        if (seen.has(key)) {
-                            return false;
-                        }
+                    var tag = value.trim();
+                    if (!tag || seen.has(tag.toLowerCase())) {
+                        return result;
+                    }
 
-                        seen.add(key);
-                        return true;
+                    seen.add(tag.toLowerCase());
+                    result.push(tag);
+                    return result;
+                }, []);
+            }
+
+            function setConfigMessage(message, isError) {
+                var element = document.querySelector('#ConfigMessage');
+                element.textContent = message || '';
+                element.classList.toggle('tagguard-state-error', Boolean(isError));
+                element.hidden = !message;
+            }
+
+            function updateSaveAvailability() {
+                document.querySelector('#SaveButton').disabled = !(settingsLoaded && librariesLoaded);
+            }
+
+            function clearChildren(element) {
+                while (element.firstChild) {
+                    element.removeChild(element.firstChild);
+                }
+            }
+
+            function renderTags() {
+                var list = document.querySelector('#AllowedTagChips');
+                clearChildren(list);
+
+                if (allowedTags.length === 0) {
+                    var empty = document.createElement('li');
+                    empty.className = 'tagguard-empty-tags';
+                    empty.textContent = 'No tags added yet.';
+                    list.appendChild(empty);
+                    return;
+                }
+
+                allowedTags.forEach(function (tag, index) {
+                    var chip = document.createElement('li');
+                    chip.className = 'tagguard-chip';
+
+                    var text = document.createElement('span');
+                    text.textContent = tag;
+
+                    var remove = document.createElement('button');
+                    remove.type = 'button';
+                    remove.className = 'tagguard-chip-remove';
+                    remove.setAttribute('aria-label', 'Remove allowed tag ' + tag);
+                    remove.textContent = '×';
+                    remove.addEventListener('click', function () {
+                        allowedTags.splice(index, 1);
+                        renderTags();
+                        document.querySelector('#AllowedTagInput').focus();
                     });
+
+                    chip.appendChild(text);
+                    chip.appendChild(remove);
+                    list.appendChild(chip);
+                });
+            }
+
+            function addTag() {
+                var input = document.querySelector('#AllowedTagInput');
+                var message = document.querySelector('#TagInputMessage');
+                var tag = input.value.trim();
+                message.textContent = '';
+
+                if (!tag) {
+                    message.textContent = 'Enter a tag before adding it.';
+                    input.focus();
+                    return;
+                }
+
+                if (allowedTags.some(function (existing) { return existing.toLowerCase() === tag.toLowerCase(); })) {
+                    message.textContent = 'That tag is already in the allowlist.';
+                    input.focus();
+                    return;
+                }
+
+                allowedTags.push(tag);
+                input.value = '';
+                renderTags();
+                input.focus();
+            }
+
+            function extractLibraries(response) {
+                if (Array.isArray(response)) {
+                    return response;
+                }
+
+                if (response && Array.isArray(response.Items)) {
+                    return response.Items;
+                }
+
+                if (response && Array.isArray(response.items)) {
+                    return response.items;
+                }
+
+                throw new Error('Jellyfin returned an unexpected library list.');
             }
 
             function renderLibraries(libraries, selectedIds) {
                 var container = document.querySelector('#LibraryOptions');
-                container.replaceChildren();
+                var state = document.querySelector('#LibraryState');
+                var summary = document.querySelector('#LibrarySummary');
+                clearChildren(container);
 
-                var folders = libraries.filter(function (library) {
-                    return library.ItemId && normalizeId(library.ItemId).length === 32;
-                });
+                var folders = libraries.map(function (library) {
+                    var id = normalizeId(library && (library.ItemId || library.itemId));
+                    if (!id) {
+                        return null;
+                    }
+
+                    return {
+                        id: id,
+                        name: String((library.Name || library.name) || 'Unnamed library'),
+                        type: String((library.CollectionType || library.collectionType) || '')
+                    };
+                }).filter(Boolean);
+
                 folders.sort(function (left, right) {
-                    return String(left.Name).localeCompare(String(right.Name));
+                    return left.name.localeCompare(right.name);
                 });
 
                 if (folders.length === 0) {
-                    container.textContent = 'Jellyfin did not return any libraries with stable item IDs.';
+                    state.hidden = false;
+                    state.classList.remove('tagguard-state-error');
+                    state.textContent = libraries.length === 0
+                        ? 'No Jellyfin libraries are available yet. Create a library in Jellyfin, then retry.'
+                        : 'Jellyfin did not return stable library IDs, so TagGuard cannot safely save a selection.';
+                    summary.textContent = 'No selectable libraries';
+                    librariesLoaded = false;
+                    updateSaveAvailability();
                     return;
                 }
 
+                state.hidden = true;
+                summary.textContent = folders.length + (folders.length === 1 ? ' library available' : ' libraries available');
+
                 folders.forEach(function (library, index) {
-                    var id = normalizeId(library.ItemId);
-                    var wrapper = document.createElement('div');
-                    wrapper.className = 'checkboxContainer';
-
                     var label = document.createElement('label');
-                    label.className = 'emby-checkbox-label';
+                    label.className = 'tagguard-library-card';
 
-                    var input = document.createElement('input', { is: 'emby-checkbox' });
+                    var input = document.createElement('input');
                     input.type = 'checkbox';
                     input.className = 'managed-library';
-                    input.value = id;
-                    input.checked = selectedIds.has(id);
+                    input.value = library.id;
+                    input.checked = selectedIds.has(library.id);
                     input.id = 'library-' + index;
+                    input.setAttribute('aria-label', 'Manage library ' + library.name);
+                    input.addEventListener('change', updateLibrarySelectionSummary);
 
+                    var text = document.createElement('span');
                     var name = document.createElement('span');
-                    var kind = library.CollectionType ? ' (' + library.CollectionType + ')' : '';
-                    name.textContent = String(library.Name || 'Unnamed library') + kind;
+                    name.className = 'tagguard-library-name';
+                    name.textContent = library.name;
+                    text.appendChild(name);
 
-                    label.append(input, name);
-                    wrapper.append(label);
-                    container.append(wrapper);
+                    if (library.type) {
+                        var type = document.createElement('span');
+                        type.className = 'tagguard-library-kind';
+                        type.textContent = library.type;
+                        text.appendChild(type);
+                    }
+
+                    label.appendChild(input);
+                    label.appendChild(text);
+                    container.appendChild(label);
+                });
+
+                librariesLoaded = true;
+                updateLibrarySelectionSummary();
+                updateSaveAvailability();
+            }
+
+            function updateLibrarySelectionSummary() {
+                var total = document.querySelectorAll('.managed-library').length;
+                var selected = document.querySelectorAll('.managed-library:checked').length;
+                document.querySelector('#LibrarySummary').textContent = selected + ' of ' + total + ' selected';
+            }
+
+            function errorText(error) {
+                if (error && typeof error.message === 'string' && error.message) {
+                    return error.message;
+                }
+
+                return String(error || 'Unknown error');
+            }
+
+            function loadLibraries() {
+                var state = document.querySelector('#LibraryState');
+                var retry = document.querySelector('#RetryLibrariesButton');
+                var summary = document.querySelector('#LibrarySummary');
+                var selectedIds = new Set(currentConfig ? (Array.isArray(currentConfig.ManagedLibraryIds) ? currentConfig.ManagedLibraryIds : []).map(normalizeId).filter(Boolean) : []);
+
+                librariesLoaded = false;
+                updateSaveAvailability();
+                retry.hidden = true;
+                summary.textContent = 'Loading libraries…';
+                state.hidden = false;
+                state.classList.remove('tagguard-state-error');
+                state.textContent = 'Loading Jellyfin libraries…';
+
+                return ApiClient.getJSON(ApiClient.getUrl('Library/VirtualFolders')).then(function (response) {
+                    renderLibraries(extractLibraries(response), selectedIds);
+                }).catch(function (error) {
+                    state.hidden = false;
+                    state.classList.add('tagguard-state-error');
+                    state.textContent = 'Could not load Jellyfin libraries: ' + errorText(error);
+                    summary.textContent = 'Library list unavailable';
+                    retry.hidden = false;
+                    librariesLoaded = false;
+                    updateSaveAvailability();
                 });
             }
 
-            function showConfigError(error) {
-                document.querySelector('#ConfigMessage').textContent = error;
+            function loadSettings() {
+                settingsLoaded = false;
+                updateSaveAvailability();
+                setConfigMessage('', false);
+
+                return ApiClient.getPluginConfiguration(TagGuardConfig.pluginUniqueId).then(function (config) {
+                    if (!config || typeof config !== 'object') {
+                        throw new Error('Jellyfin returned invalid TagGuard settings.');
+                    }
+
+                    currentConfig = config;
+                    allowedTags = uniqueTags(config.AllowedTags);
+                    document.querySelector('#EnforceNewItems').checked = config.EnforceNewItems === true;
+                    renderTags();
+                    settingsLoaded = true;
+                }).catch(function (error) {
+                    setConfigMessage('Could not load TagGuard settings: ' + errorText(error), true);
+                });
             }
 
-            document.querySelector('#TagGuardConfigPage')
-                .addEventListener('pageshow', function () {
-                    var saveButton = document.querySelector('#SaveButton');
-                    var message = document.querySelector('#ConfigMessage');
-                    saveButton.disabled = true;
-                    message.textContent = '';
-                    Dashboard.showLoadingMsg();
-
-                    Promise.all([
-                        ApiClient.getPluginConfiguration(TagGuardConfig.pluginUniqueId),
-                        ApiClient.getJSON(ApiClient.getUrl('Library/VirtualFolders'))
-                    ]).then(function (values) {
-                        var config = values[0];
-                        var libraries = values[1];
-                        if (!Array.isArray(libraries)) {
-                            throw new Error('Jellyfin returned an invalid library list.');
-                        }
-
-                        document.querySelector('#AllowedTags').value = (config.AllowedTags || []).join('\n');
-                        document.querySelector('#EnforceNewItems').checked = config.EnforceNewItems === true;
-                        renderLibraries(libraries, new Set((config.ManagedLibraryIds || []).map(normalizeId)));
-                        saveButton.disabled = false;
-                    }).catch(function (error) {
-                        showConfigError('Could not load TagGuard settings or Jellyfin libraries: ' + error.message);
-                    }).finally(function () {
-                        Dashboard.hideLoadingMsg();
-                    });
+            function loadPage() {
+                document.querySelector('#SaveButton').disabled = true;
+                Dashboard.showLoadingMsg();
+                return loadSettings().then(function () {
+                    return loadLibraries();
+                }).finally(function () {
+                    updateSaveAvailability();
+                    Dashboard.hideLoadingMsg();
                 });
+            }
 
-            document.querySelector('#TagGuardConfigForm')
-                .addEventListener('submit', function (event) {
+            document.querySelector('#AddTagButton').addEventListener('click', addTag);
+            document.querySelector('#AllowedTagInput').addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
                     event.preventDefault();
-                    var allowedTags = parseAllowedTags(document.querySelector('#AllowedTags').value);
-                    var managedLibraryIds = Array.from(document.querySelectorAll('.managed-library:checked'))
-                        .map(function (input) { return input.value; });
+                    addTag();
+                }
+            });
+            document.querySelector('#RetryLibrariesButton').addEventListener('click', function () {
+                loadLibraries();
+            });
 
-                    if (allowedTags.length === 0) {
-                        showConfigError('Add at least one non-empty allowed tag before saving.');
-                        return false;
-                    }
+            document.querySelector('#TagGuardConfigPage').addEventListener('pageshow', loadPage);
 
-                    if (managedLibraryIds.length === 0) {
-                        showConfigError('Select at least one Jellyfin library before saving.');
-                        return false;
-                    }
+            document.querySelector('#TagGuardConfigForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                setConfigMessage('', false);
 
-                    Dashboard.showLoadingMsg();
-                    ApiClient.getPluginConfiguration(TagGuardConfig.pluginUniqueId).then(function (config) {
-                        config.AllowedTags = allowedTags;
-                        config.ManagedLibraryIds = managedLibraryIds;
-                        config.EnforceNewItems = document.querySelector('#EnforceNewItems').checked;
-                        return ApiClient.updatePluginConfiguration(TagGuardConfig.pluginUniqueId, config);
-                    }).then(function (result) {
-                        Dashboard.processPluginConfigurationUpdateResult(result);
-                    }).catch(function (error) {
-                        showConfigError('TagGuard settings could not be saved: ' + error.message);
-                        Dashboard.hideLoadingMsg();
-                    });
+                if (document.querySelector('#AllowedTagInput').value.trim()) {
+                    addTag();
+                }
 
+                var managedLibraryIds = Array.from(document.querySelectorAll('.managed-library:checked'))
+                    .map(function (input) { return input.value; });
+
+                if (allowedTags.length === 0) {
+                    setConfigMessage('Add at least one allowed tag before saving. An empty allowlist is not safe to apply.', true);
+                    document.querySelector('#AllowedTagInput').focus();
                     return false;
+                }
+
+                if (managedLibraryIds.length === 0) {
+                    setConfigMessage('Select at least one Jellyfin library before saving.', true);
+                    document.querySelector('#LibraryOptions').focus();
+                    return false;
+                }
+
+                var saveButton = document.querySelector('#SaveButton');
+                saveButton.disabled = true;
+                Dashboard.showLoadingMsg();
+
+                currentConfig.AllowedTags = allowedTags.slice();
+                currentConfig.ManagedLibraryIds = managedLibraryIds;
+                currentConfig.EnforceNewItems = document.querySelector('#EnforceNewItems').checked;
+
+                ApiClient.updatePluginConfiguration(TagGuardConfig.pluginUniqueId, currentConfig).then(function (result) {
+                    Dashboard.processPluginConfigurationUpdateResult(result);
+                }).catch(function (error) {
+                    setConfigMessage('TagGuard settings could not be saved: ' + errorText(error), true);
+                    Dashboard.hideLoadingMsg();
+                    updateSaveAvailability();
                 });
+
+                return false;
+            });
         </script>
     </div>
 </body>
