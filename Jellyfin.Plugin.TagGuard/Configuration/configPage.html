@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TagGuard</title>
+</head>
+<body>
+    <div id="TagGuardConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <h1>TagGuard</h1>
+                <p class="warningNotice" role="alert"><strong>Destructive operation:</strong> when TagGuard runs, it removes every tag not listed below from Movies and Series in the selected libraries. Review your selection and allowlist before running the cleanup task.</p>
+                <form id="TagGuardConfigForm">
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="AllowedTags">Allowed tags</label>
+                        <textarea id="AllowedTags" name="AllowedTags" is="emby-input" rows="5" required aria-describedby="AllowedTagsDescription"></textarea>
+                        <div id="AllowedTagsDescription" class="fieldDescription">Enter one tag per line. Matching ignores case and surrounding whitespace; the spelling shown here is retained as the canonical form.</div>
+                    </div>
+
+                    <fieldset>
+                        <legend>Managed libraries</legend>
+                        <p class="fieldDescription">Select at least one library. Only Movies and Series inside selected libraries are eligible.</p>
+                        <div id="LibraryOptions" aria-live="polite"></div>
+                    </fieldset>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input id="EnforceNewItems" name="EnforceNewItems" type="checkbox" is="emby-checkbox" />
+                            <span>Automatically sanitize newly added Movies and Series</span>
+                        </label>
+                        <div class="fieldDescription">New items are processed once after Jellyfin's item updates settle. TagGuard does not continuously scan the library.</div>
+                    </div>
+
+                    <div id="ConfigMessage" role="status" aria-live="polite"></div>
+                    <div>
+                        <button id="SaveButton" is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var TagGuardConfig = {
+                pluginUniqueId: '8d7137fb-7106-4c96-8d87-0325b38c88e5'
+            };
+
+            function normalizeId(id) {
+                return String(id || '').replace(/[{}-]/g, '').toLowerCase();
+            }
+
+            function parseAllowedTags(text) {
+                var seen = new Set();
+                return text.split(/\r?\n/)
+                    .map(function (tag) { return tag.trim(); })
+                    .filter(function (tag) {
+                        if (!tag) {
+                            return false;
+                        }
+
+                        var key = tag.toLowerCase();
+                        if (seen.has(key)) {
+                            return false;
+                        }
+
+                        seen.add(key);
+                        return true;
+                    });
+            }
+
+            function renderLibraries(libraries, selectedIds) {
+                var container = document.querySelector('#LibraryOptions');
+                container.replaceChildren();
+
+                var folders = libraries.filter(function (library) {
+                    return library.ItemId && normalizeId(library.ItemId).length === 32;
+                });
+                folders.sort(function (left, right) {
+                    return String(left.Name).localeCompare(String(right.Name));
+                });
+
+                if (folders.length === 0) {
+                    container.textContent = 'Jellyfin did not return any libraries with stable item IDs.';
+                    return;
+                }
+
+                folders.forEach(function (library, index) {
+                    var id = normalizeId(library.ItemId);
+                    var wrapper = document.createElement('div');
+                    wrapper.className = 'checkboxContainer';
+
+                    var label = document.createElement('label');
+                    label.className = 'emby-checkbox-label';
+
+                    var input = document.createElement('input', { is: 'emby-checkbox' });
+                    input.type = 'checkbox';
+                    input.className = 'managed-library';
+                    input.value = id;
+                    input.checked = selectedIds.has(id);
+                    input.id = 'library-' + index;
+
+                    var name = document.createElement('span');
+                    var kind = library.CollectionType ? ' (' + library.CollectionType + ')' : '';
+                    name.textContent = String(library.Name || 'Unnamed library') + kind;
+
+                    label.append(input, name);
+                    wrapper.append(label);
+                    container.append(wrapper);
+                });
+            }
+
+            function showConfigError(error) {
+                document.querySelector('#ConfigMessage').textContent = error;
+            }
+
+            document.querySelector('#TagGuardConfigPage')
+                .addEventListener('pageshow', function () {
+                    var saveButton = document.querySelector('#SaveButton');
+                    var message = document.querySelector('#ConfigMessage');
+                    saveButton.disabled = true;
+                    message.textContent = '';
+                    Dashboard.showLoadingMsg();
+
+                    Promise.all([
+                        ApiClient.getPluginConfiguration(TagGuardConfig.pluginUniqueId),
+                        ApiClient.getJSON(ApiClient.getUrl('Library/VirtualFolders'))
+                    ]).then(function (values) {
+                        var config = values[0];
+                        var libraries = values[1];
+                        if (!Array.isArray(libraries)) {
+                            throw new Error('Jellyfin returned an invalid library list.');
+                        }
+
+                        document.querySelector('#AllowedTags').value = (config.AllowedTags || []).join('\n');
+                        document.querySelector('#EnforceNewItems').checked = config.EnforceNewItems === true;
+                        renderLibraries(libraries, new Set((config.ManagedLibraryIds || []).map(normalizeId)));
+                        saveButton.disabled = false;
+                    }).catch(function (error) {
+                        showConfigError('Could not load TagGuard settings or Jellyfin libraries: ' + error.message);
+                    }).finally(function () {
+                        Dashboard.hideLoadingMsg();
+                    });
+                });
+
+            document.querySelector('#TagGuardConfigForm')
+                .addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    var allowedTags = parseAllowedTags(document.querySelector('#AllowedTags').value);
+                    var managedLibraryIds = Array.from(document.querySelectorAll('.managed-library:checked'))
+                        .map(function (input) { return input.value; });
+
+                    if (allowedTags.length === 0) {
+                        showConfigError('Add at least one non-empty allowed tag before saving.');
+                        return false;
+                    }
+
+                    if (managedLibraryIds.length === 0) {
+                        showConfigError('Select at least one Jellyfin library before saving.');
+                        return false;
+                    }
+
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(TagGuardConfig.pluginUniqueId).then(function (config) {
+                        config.AllowedTags = allowedTags;
+                        config.ManagedLibraryIds = managedLibraryIds;
+                        config.EnforceNewItems = document.querySelector('#EnforceNewItems').checked;
+                        return ApiClient.updatePluginConfiguration(TagGuardConfig.pluginUniqueId, config);
+                    }).then(function (result) {
+                        Dashboard.processPluginConfigurationUpdateResult(result);
+                    }).catch(function (error) {
+                        showConfigError('TagGuard settings could not be saved: ' + error.message);
+                        Dashboard.hideLoadingMsg();
+                    });
+
+                    return false;
+                });
+        </script>
+    </div>
+</body>
+</html>

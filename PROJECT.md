@@ -12,13 +12,13 @@ TagGuard is a Jellyfin plugin that keeps only explicitly allowed tags on configu
 
 ## Current status
 
-The solution, plugin/configuration types, tag planner, configuration validator, Jellyfin persistence service, manual cleanup task, and event-driven new-item handler are implemented. Unit tests cover tag planning, configuration checks, persistence outcomes, and the bounded debounce queue. The configuration page and public documentation/CI remain to be added.
+The .NET 9 plugin and tests, configuration validator, tag sanitizer/persistence service, manual cleanup task, and one-shot event-driven new-item handler are implemented. The Jellyfin dashboard page configures allowed tags, explicit library IDs, and new-item enforcement. Public documentation, changelog, `build.yaml`, and restore/build/test CI are in place.
 
 ## Known limitations and open questions
 
-- Inspection of Jellyfin 10.11.9 source confirms locked metadata fields are stored with item records, and metadata refresh merges tags only when `MetadataField.Tags` is not locked.
-- Jellyfin's metadata editor applies explicitly submitted tags even when the Tags field is locked, so deliberate administrator edits remain possible. A restart/provider-refresh test against a running server has not yet been performed.
+- Inspection of Jellyfin 10.11.9 source confirms locked metadata fields are stored with item records, metadata refresh merges tags only when `MetadataField.Tags` is not locked, and explicit metadata-editor tag updates remain possible. These semantics are documented with upstream source references.
+- A restart/provider-refresh test against a running Jellyfin server has not yet been performed; verify on the exact server and JellyTag versions before relying on this behavior for parental controls.
 
 ## Immediate next steps
 
-Add the configuration page, README, packaging metadata, and CI; document the source-verified lock behavior and a manual server integration test.
+Run the documented manual Jellyfin integration check: verify Tags lock persistence across restart, metadata-provider refresh behavior, and deliberate Jellyfin/JellyTag edits after sanitation. Confirm/revise the `build.yaml` owner value when the eventual public GitHub owner is known; publish a release and consider plugin repository submission separately.

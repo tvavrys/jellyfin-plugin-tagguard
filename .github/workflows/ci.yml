@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore Jellyfin.Plugin.TagGuard.slnx
+
+      - name: Build
+        run: dotnet build Jellyfin.Plugin.TagGuard.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test Jellyfin.Plugin.TagGuard.slnx --configuration Release --no-build

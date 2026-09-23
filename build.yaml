@@ -1,0 +1,15 @@
+name: "TagGuard"
+guid: "8d7137fb-7106-4c96-8d87-0325b38c88e5"
+version: "0.1.0.0"
+targetAbi: "10.11.0.0"
+framework: "net9.0"
+overview: "Keep only explicitly allowed tags on selected Movies and Series."
+description: >
+  Jellyfin TagGuard removes non-allowlisted tags from selected movie and series
+  libraries and locks the Tags metadata field against metadata-provider refreshes.
+category: "General"
+owner: "community"
+artifacts:
+  - "Jellyfin.Plugin.TagGuard.dll"
+changelog: >
+  Initial public release.
